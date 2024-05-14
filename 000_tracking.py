@@ -10,6 +10,8 @@ line = collider.lhcb1
 
 tw = line.twiss()
 
+shift_r_vector = np.linspace(-0.01, 0.01, 20)
+
 r_min = 2
 r_max = 10
 n_r = 256
@@ -18,39 +20,54 @@ delta_max = 27.e-5
 nemitt_x = 2.5e-6
 nemitt_y = 2.5e-6
 
-radial_list = np.linspace(r_min, r_max, n_r, endpoint=False)
-theta_list = np.linspace(0, 90, n_angles + 2)[1:-1]
+particles_objects = []
 
-# Define particle distribution as a cartesian product of the above
-particle_list = [(particle_id, ii[1], ii[0]) for particle_id, ii
-         in enumerate(itertools.product(theta_list, radial_list))]
+for shift in shift_r_vector:
+    radial_list = np.linspace(r_min + shift, r_max + shift, n_r,
+                               endpoint=False)
+    theta_list = np.linspace(0, 90, n_angles + 2)[1:-1]
 
-particle_df = pd.DataFrame(particle_list,
-            columns=["particle_id", "normalized amplitude in xy-plane",
-                     "angle in xy-plane [deg]"])
+    # Define particle distribution as a cartesian product of the above
+    particle_list = [(particle_id, ii[1], ii[0]) for particle_id, ii
+             in enumerate(itertools.product(theta_list, radial_list))]
 
-r_vect = particle_df["normalized amplitude in xy-plane"].values
-theta_vect = particle_df["angle in xy-plane [deg]"].values * np.pi / 180  # type: ignore # [rad]
+    particle_df = pd.DataFrame(particle_list,
+                columns=["particle_id", "normalized amplitude in xy-plane",
+                         "angle in xy-plane [deg]"])
 
-A1_in_sigma = r_vect * np.cos(theta_vect)
-A2_in_sigma = r_vect * np.sin(theta_vect)
+    r_vect = particle_df["normalized amplitude in xy-plane"].values
+    theta_vect = particle_df["angle in xy-plane [deg]"].values * np.pi / 180  # type: ignore # [rad]
 
-particles = line.build_particles(
-        x_norm=A1_in_sigma,
-        y_norm=A2_in_sigma,
-        delta=delta_max,
-        scale_with_transverse_norm_emitt=(nemitt_x, nemitt_y),
-)
+    A1_in_sigma = r_vect * np.cos(theta_vect)
+    A2_in_sigma = r_vect * np.sin(theta_vect)
+
+    particles = line.build_particles(
+            x_norm=A1_in_sigma,
+            y_norm=A2_in_sigma,
+            delta=delta_max,
+            scale_with_transverse_norm_emitt=(nemitt_x, nemitt_y),
+    )
+    particles_objects.append(particles)
+
+all_particles = xt.Particles.merge(particles_objects)
+all_particles_init = all_particles.copy(_context=xo.context_default)
 
 context = xo.ContextCupy()
 line.discard_tracker()
 line.build_tracker(_context=context)
-particles.move(_context=context)
+all_particles.move(_context=context)
 
 num_turns = 10000
-line.track(particles, num_turns=num_turns, with_progress=10)
+line.track(all_particles, num_turns=num_turns, with_progress=10)
+
+all_particles.move(_context=xo.context_default)
+all_particles.sort(interleave_lost_particles=True)
 
 
+dct_out = {
+    'all_particles_init': all_particles_init.to_dict(),
+    'all_particles': all_particles.to_dict()}
 
-
-
+import json
+with open('out.json', 'w') as fid:
+    json.dump(dct_out, fid, cls=xo.JEncoder)
