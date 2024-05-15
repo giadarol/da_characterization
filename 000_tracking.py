@@ -10,7 +10,7 @@ line = collider.lhcb1
 
 tw = line.twiss()
 
-shift_r_vector = np.linspace(-0.01, 0.01, 20)
+shift_r_vector = np.linspace(-0.01, 0.01, 100)
 
 r_min = 2
 r_max = 10
@@ -57,7 +57,7 @@ line.discard_tracker()
 line.build_tracker(_context=context)
 all_particles.move(_context=context)
 
-num_turns = 10000
+num_turns = 100000
 line.track(all_particles, num_turns=num_turns, with_progress=10)
 
 all_particles.move(_context=xo.context_default)
