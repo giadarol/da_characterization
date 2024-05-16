@@ -12,7 +12,7 @@ line = collider.lhcb1
 
 tw = line.twiss()
 
-shift_r_vector = np.linspace(-0.01, 0.01, 20)[:10]
+shift_r_vector = np.linspace(-0.01, 0.01, 16)
 
 r_min = 2
 r_max = 10
