@@ -6,13 +6,13 @@ import numpy as np
 
 collider = xt.Multiline.from_json('collider_04_tuned_and_leveled_bb_on.json')
 
-collider.vars['beambeam_scale'] = 0.8
+collider.vars['beambeam_scale'] = 0.9
 
 line = collider.lhcb1
 
 tw = line.twiss()
 
-shift_r_vector = np.linspace(-0.01, 0.01, 20)[:10]
+shift_r_vector = np.linspace(-0.01, 0.01, 16)
 
 r_min = 2
 r_max = 10
@@ -54,7 +54,7 @@ for shift in shift_r_vector:
 all_particles = xt.Particles.merge(particles_objects)
 all_particles_init = all_particles.copy(_context=xo.context_default)
 
-context = xo.ContextCupy()
+context = xo.ContextCupy(device=2)
 line.discard_tracker()
 line.build_tracker(_context=context)
 all_particles.move(_context=context)
@@ -71,5 +71,5 @@ dct_out = {
     'all_particles': all_particles.to_dict()}
 
 import json
-with open('out_1M_less_bb.json', 'w') as fid:
+with open('out_1M_bb_0.9.json', 'w') as fid:
     json.dump(dct_out, fid, cls=xo.JEncoder)
