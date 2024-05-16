@@ -6,11 +6,13 @@ import numpy as np
 
 collider = xt.Multiline.from_json('collider_04_tuned_and_leveled_bb_on.json')
 
+collider.vars['beambeam_scale'] = 0.8
+
 line = collider.lhcb1
 
 tw = line.twiss()
 
-shift_r_vector = np.linspace(-0.01, 0.01, 20)
+shift_r_vector = np.linspace(-0.01, 0.01, 20)[:10]
 
 r_min = 2
 r_max = 10
@@ -69,5 +71,5 @@ dct_out = {
     'all_particles': all_particles.to_dict()}
 
 import json
-with open('out_1M.json', 'w') as fid:
+with open('out_1M_less_bb.json', 'w') as fid:
     json.dump(dct_out, fid, cls=xo.JEncoder)
