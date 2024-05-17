@@ -63,6 +63,12 @@ plt.figure(1)
 plt.plot(r_ref, label='simulation')
 plt.plot(r_shift_particle, label='scale particle amplitude by 1.000000000001')
 plt.plot(r_change_circumference, label='scale ring circumference by 1.00000000000001')
+plt.legend()
+plt.figure(2)
+plt.plot(np.abs(r_shift_particle - r_ref), label='scale particle amplitude by 1.000000000001')
+plt.plot(np.abs(r_change_circumference - r_ref), label='scale ring circumference by 1.00000000000001')
 
 plt.legend()
+
+plt.show()
 
