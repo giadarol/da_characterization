@@ -54,7 +54,7 @@ for shift in shift_r_vector:
 all_particles = xt.Particles.merge(particles_objects)
 all_particles_init = all_particles.copy(_context=xo.context_default)
 
-context = xo.ContextCupy(device=0)
+context = xo.ContextCupy(device=1)
 line.discard_tracker()
 line.build_tracker(_context=context)
 all_particles.move(_context=context)
