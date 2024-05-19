@@ -6,7 +6,7 @@ import numpy as np
 
 collider = xt.Multiline.from_json('collider_04_tuned_and_leveled_bb_on.json')
 
-collider.vars['beambeam_scale'] = 0.6
+collider.vars['beambeam_scale'] = 0.4
 
 line = collider.lhcb1
 
@@ -71,5 +71,5 @@ dct_out = {
     'all_particles': all_particles.to_dict()}
 
 import json
-with open('out_1M_bb_0.6.json', 'w') as fid:
+with open('out_1M_bb_0.4.json', 'w') as fid:
     json.dump(dct_out, fid, cls=xo.JEncoder)
