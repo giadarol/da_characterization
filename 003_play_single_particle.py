@@ -20,7 +20,7 @@ r_test = 8
 x_norm_test = r_test * np.cos(theta)
 y_norm_test = r_test * np.sin(theta)
 
-p_test = line.build_particles(x_norm=x_norm_test*(1 + np.array([0, 1e-12])),
+p_test = line.build_particles(x_norm=x_norm_test*(1 + np.array([0, 1e-15])),
                                 y_norm=y_norm_test,
                                 delta=delta_max,
                                 nemitt_x=2.5e-6, nemitt_y=2.5e-6)

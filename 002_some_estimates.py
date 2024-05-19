@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.special import erf
 
-std_da = 0.2
+std_da = 0.18
 
 def cdf(r):
     return 0.5 * (1 + erf(r / np.sqrt(2)))

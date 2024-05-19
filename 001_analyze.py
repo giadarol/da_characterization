@@ -13,16 +13,31 @@ fname_data = 'out_1M.json'
 bb_scale = 1.0
 
 n_repeat = 16
+fname_data = 'out_1M_bb_0.9.json'
+bb_scale = 0.9
+
+n_repeat = 16
 fname_data = 'out_1M_less_bb.json'
 bb_scale = 0.8
 
 n_repeat = 16
-fname_data = 'out_1M_bb_0.9.json'
-bb_scale = 0.9
+fname_data = 'out_1M_bb_0.7.json'
+bb_scale = 0.7
+
+n_repeat = 16
+fname_data = 'out_1M_bb_0.6.json'
+bb_scale = 0.6
+
+n_repeat = 16
+fname_data = 'out_1M_bb_0.5.json'
+bb_scale = 0.5
+
+n_repeat = 16
+fname_data = 'out_1M_bb_0.4.json'
+bb_scale = 0.4
 
 collider = xt.Multiline.from_json('collider_04_tuned_and_leveled_bb_on.json')
 collider.vars['beambeam_scale'] = bb_scale
-
 line = collider.lhcb1
 
 tw = line.twiss()
@@ -107,6 +122,9 @@ norm_da = tw.get_normalized_coordinates(mon_da.data, nemitt_x=2.5e-6, nemitt_y=2
 # norm_test = tw.get_normalized_coordinates(mon_test.data, nemitt_x=2.5e-6, nemitt_y=2.5e-6)
 # rx_test = np.sqrt(norm_test.x_norm**2 + norm_test.px_norm**2)
 # ry_test = np.sqrt(norm_test.y_norm**2 + norm_test.py_norm**2)
+
+print(f'Average r_lost_min: {np.mean(r_lost_min)}')
+print(f'Std r_lost_min: {np.std(r_lost_min)}')
 
 import matplotlib.pyplot as plt
 plt.close('all')
