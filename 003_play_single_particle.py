@@ -16,7 +16,7 @@ tw = line.twiss()
 
 
 theta = np.deg2rad(30)
-r_gen_half = np.linspace(6.5, 8, 100)[:30]
+r_gen_half = np.linspace(6.5, 8, 100)[15:25]
 r_gen = np.zeros(2*len(r_gen_half))
 r_gen[::2] = r_gen_half
 r_gen[1::2] = r_gen_half + 1e-15
@@ -52,6 +52,10 @@ r_test = r_test.reshape(mon_test.x.shape).T
 i_stabilized = 2 * np.where(p_test.state[::2] != p_test.state[1::2])[0][0]
 r_ref = r_test[:, i_stabilized]
 r_shift_particle = r_test[:, i_stabilized + 1]
+x_ref = mon_test.x[i_stabilized, :]
+x_shift_particle = mon_test.x[i_stabilized + 1, :]
+y_ref = mon_test.y[i_stabilized, :]
+y_shift_particle = mon_test.y[i_stabilized + 1, :]
 
 for nn in line.get_table().name[:-1]:
     if type(line[nn]) is xt.Drift:
@@ -70,17 +74,31 @@ r_test2 = np.sqrt(rx_test2**2 + ry_test2**2)
 r_test2 = r_test2.reshape(mon_test2.x.shape).T
 
 r_change_circumference = r_test2[:, 0]
+x_change_circumference = mon_test2.x[0, :]
+y_change_circumference = mon_test2.y[0, :]
 
-plt.figure(1)
 
 plt.close('all')
-plt.figure(1)
-plt.plot(r_ref, label='simulation')
-plt.plot(r_shift_particle, label=r'increase particle amplitude by $10^{-15}$ $\sigma$')
+f1 = plt.figure(1, figsize=(6.4*0.8, 4.8*0.8))
+plt.plot(r_ref, label='Reference')
+plt.plot(r_shift_particle, label=r'Increase particle amplitude by $10^{-15}$ $\sigma$')
 plt.plot(r_change_circumference, label=r'scale ring circumference by (1 + $10^{-14}$)')
-# plt.plot(np.abs(r_change_circumference - r_ref), label='scale ring circumference by 1.00000000000001')
-
+plt.xlabel('Turn')
+plt.ylabel(r'Amplitude [$\sigma$]')
+plt.xlim(0, len(r_ref))
+plt.ylim(0, 30)
 plt.legend()
+plt.subplots_adjust(bottom=0.15, left=0.15)
+
+f2 = plt.figure(2, figsize=(6.4*0.8, 4.8*0.8))
+plt.plot(1e3 * x_ref, label='Reference')
+plt.plot(1e3 * x_shift_particle, '--', label=r'Increase particle amplitude by $10^{-15}$ $\sigma$')
+plt.plot(1e3 * x_change_circumference, ':', label=r'scale ring circumference by (1 + $10^{-14}$)')
+plt.xlabel('Turn')
+plt.ylabel(r'$x$ [mm]')
+plt.xlim(0, len(r_ref))
+plt.legend()
+plt.subplots_adjust(bottom=0.15, left=0.15)
 
 plt.show()
 
