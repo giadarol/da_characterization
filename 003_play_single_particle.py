@@ -100,5 +100,12 @@ plt.xlim(0, len(r_ref))
 plt.legend()
 plt.subplots_adjust(bottom=0.15, left=0.15)
 
+f3 = plt.figure(3, figsize=(6.4*0.8, 4.8*0.8))
+plt.semilogy(r_ref - r_shift_particle, '.', color='C1')
+plt.xlabel('Turn')
+plt.ylabel(r'$\Delta A / A$')
+plt.xlim(0, len(r_ref))
+plt.subplots_adjust(bottom=0.15, left=0.15)
+
 plt.show()
 
