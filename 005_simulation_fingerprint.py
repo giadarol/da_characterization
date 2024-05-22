@@ -20,6 +20,8 @@ det_table = xt.Table({
     'value': np.array([v for v in det.values()]),
 })
 
+nl_chrom = line.get_non_linear_chromaticity(delta0_range=(-2e-4, 2e-4), num_delta=5, fit_order=3)
+
 out = ''
 
 out += f'Line: {line_name}\n'
@@ -60,4 +62,14 @@ out += '\n\n'
 
 out += 'Amplitude detuning coefficients:\n'
 out += det_table.show(output=str, max_col_width=int(1e6), digits=6)
+out += '\n\n'
+
+out += 'Non-linear chromaticity:\n'
+out += f'dnqx = {list(nl_chrom["dnqx"])}\n'
+out += f'dnqy = {list(nl_chrom["dnqy"])}\n'
+out += '\n\n'
+
+out += 'Tunes and momentum compaction vs delta:\n'
+out += nl_chrom.show(output=str, max_col_width=int(1e6), digits=6)
+out += '\n\n'
 
