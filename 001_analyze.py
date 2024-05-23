@@ -66,6 +66,7 @@ r_lost_min = []
 norm_runs = []
 r_runs = []
 at_turn_runs = []
+mask_lost_runs = []
 for ii in range(n_repeat):
     p_init_run = all_particles_init.filter(
         (all_particles_init.particle_id >= ii*n_part_per_run)
@@ -88,6 +89,7 @@ for ii in range(n_repeat):
     r_runs.append(r_run)
 
     at_turn_runs.append(p_run.at_turn)
+    mask_lost_runs.append(mask_lost_run)
 
 # identify particle determining da
 r_all = np.sqrt(norm.x_norm**2 + norm.y_norm**2)
@@ -159,6 +161,13 @@ plt.plot(ry_norm, label='ry')
 plt.plot(np.sqrt(rx_norm**2 + ry_norm**2), label='r')
 plt.legend()
 plt.xlabel('turn')
+
+i_run = 5
+# Plot ry vs rx
+plt.figure(101)
+plt.plot(norm_runs[i_run].x_norm, norm_runs[i_run].y_norm, '.')
+plt.plot(norm_runs[i_run].x_norm[mask_lost_runs[i_run]],
+         norm_runs[i_run].y_norm[mask_lost_runs[i_run]], 'xr')
 
 
 plt.show()

@@ -4,7 +4,7 @@ import numpy as np
 collider = xt.Multiline.from_json('collider_04_tuned_and_leveled_bb_on.json')
 
 line_name = 'lhcb1'
-bb_scale = 0.
+bb_scale = 1.
 
 line = collider[line_name]
 line.vars['beambeam_scale'] = bb_scale
@@ -20,7 +20,8 @@ det_table = xt.Table({
     'value': np.array([v for v in det.values()]),
 })
 
-nl_chrom = line.get_non_linear_chromaticity(delta0_range=(-2e-4, 2e-4), num_delta=5, fit_order=3)
+nl_chrom = line.get_non_linear_chromaticity(
+    delta0_range=(-2e-4, 2e-4), num_delta=5, fit_order=3)
 
 out = ''
 
