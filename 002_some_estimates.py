@@ -12,6 +12,10 @@ def cdf_da(da):
 def cdf_diff_da_2_runs(da):
     return cdf(da / np.sqrt(2) / std_da)
 
+def cdf_ave_n_points(n, da):
+    std_n = std_da / np.sqrt(n)
+    return cdf(da / std_n)
+
 # probability of getting da off by 0.2
 p_da_0_2 = 1 - (cdf_da(0.2) - cdf_da(-0.2))
 print(f'Probability of getting da off by 0.2: {p_da_0_2*100:.2f} %')
@@ -58,6 +62,20 @@ print(f'Probability of getting a difference of 0.5 sigma in da between 2 runs: {
 # probability of getting a difference of 0.5 sigma over a scan with n runs
 p_diff_da_0_5_sigma_scan = 1 - (1 - p_diff_da_0_5_sigma)**(n_runs)
 print(f'Probability of getting a difference of 0.5 sigma over a scan with {n_runs} runs: {p_diff_da_0_5_sigma_scan*100:.2f} %')
+
+# Average of n points
+
+# probability that the average of 2 points is off by 0.2 sigma
+p_ave_2_points_0_2 = 1 - (cdf_ave_n_points(2, 0.2) - cdf_ave_n_points(2, -0.2))
+print(f'Probability that the average of 2 points is off by 0.2 sigma: {p_ave_2_points_0_2*100:.2f} %')
+
+# probability that the average of 4 points is off by 0.2 sigma
+p_ave_4_points_0_2 = 1 - (cdf_ave_n_points(4, 0.2) - cdf_ave_n_points(4, -0.2))
+print(f'Probability that the average of 4 points is off by 0.2 sigma: {p_ave_4_points_0_2*100:.2f} %')
+
+# probability that the average of 9 points is off by 0.2 sigma
+p_ave_9_points_0_2 = 1 - (cdf_ave_n_points(9, 0.2) - cdf_ave_n_points(9, -0.2))
+print(f'Probability that the average of 9 points is off by 0.2 sigma: {p_ave_9_points_0_2*100:.2f} %')
 
 
 
