@@ -162,12 +162,18 @@ plt.plot(np.sqrt(rx_norm**2 + ry_norm**2), label='r')
 plt.legend()
 plt.xlabel('turn')
 
-i_run = 5
+i_run = 4
 # Plot ry vs rx
-plt.figure(101)
-plt.plot(norm_runs[i_run].x_norm, norm_runs[i_run].y_norm, '.')
+plt.figure(101, figsize=(6.4 * 0.8, 4.8*0.8))
+
 plt.plot(norm_runs[i_run].x_norm[mask_lost_runs[i_run]],
          norm_runs[i_run].y_norm[mask_lost_runs[i_run]], 'xr')
-
+plt.plot(norm_runs[i_run].x_norm[~mask_lost_runs[i_run]],
+         norm_runs[i_run].y_norm[~mask_lost_runs[i_run]], '.g')
+plt.axis('square')
+plt.xlabel(r'$A_x$')
+plt.ylabel(r'$A_y$')
+plt.subplots_adjust(bottom=0.15, left=0.15)
+plt.legend(['Lost', 'Survived'])
 
 plt.show()
