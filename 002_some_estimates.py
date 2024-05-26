@@ -45,8 +45,6 @@ print(f'Probability that at least one point is off by 0.7 sigma: {p_at_least_one
 p_at_least_one_da_1 = 1 - (1 - p_da_1)**n_runs
 print(f'Probability that at least one point is off by 1.0: {p_at_least_one_da_1*100:.2f} %')
 
-
-
 # probability of getting a difference of 1 sigma in da between 2 runs
 p_diff_da_1_sigma = 1 - (cdf_diff_da_2_runs(1) - cdf_diff_da_2_runs(-1))
 print(f'Probability of getting a difference of 1 sigma in da between 2 runs: {p_diff_da_1_sigma*100:.2f} %')
@@ -58,6 +56,10 @@ print(f'Probability of getting a difference of 1 sigma over a scan with {n_runs}
 # probability of getting a difference of 0.5 sigma in da between 2 runs
 p_diff_da_0_5_sigma = 1 - (cdf_diff_da_2_runs(0.5) - cdf_diff_da_2_runs(-0.5))
 print(f'Probability of getting a difference of 0.5 sigma in da between 2 runs: {p_diff_da_0_5_sigma*100:.2f} %')
+
+# probability of getting a difference of 0.3 sigma in da between 2 runs
+p_diff_da_0_3_sigma = 1 - (cdf_diff_da_2_runs(0.3) - cdf_diff_da_2_runs(-0.3))
+print(f'Probability of getting a difference of 0.3 sigma in da between 2 runs: {p_diff_da_0_3_sigma*100:.2f} %')
 
 # probability of getting a difference of 0.5 sigma over a scan with n runs
 p_diff_da_0_5_sigma_scan = 1 - (1 - p_diff_da_0_5_sigma)**(n_runs)
